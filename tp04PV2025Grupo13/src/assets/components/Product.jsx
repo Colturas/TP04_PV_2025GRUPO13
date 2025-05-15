@@ -21,8 +21,7 @@ const Product = () => {
   const eliminarProducto = useCallback((id) => {
     setProductos(productos.filter(p => p.id !== id));
   }, [productos]);
-  /*
-  ---------------Codigo que aun no pruebo si esta bien o no-----------------------
+  
   // Seleccionar producto para editar
   const seleccionarProducto = useCallback((producto) => {
     setProductoEditando(producto);
@@ -47,7 +46,7 @@ const Product = () => {
     <div>
       <h2>Titulo (capaz Gestión de Productos)</h2>
 
-      { Buscador}
+      { /* Buscador */ }
       <input
         type="text"
         placeholder="Buscar por descripción..."
@@ -56,20 +55,20 @@ const Product = () => {
         style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%" }}
       />
 
-      { Formulario para agregar o editar }
+      { /* Formulario para agregar o editar */}
       <ProductForm
         alAgregar={agregarProducto}
         productoEditar={productoEditando}
         alEditar={guardarEdicion}
       />
 
-      {Lista de productos}
+      {/*Lista de productos*/}
       <ProductList
         productos={productosFiltrados}
         alEliminar={eliminarProducto}
         alEditar={seleccionarProducto}
       />
     </div>
-  ); */
+  );
 };
 export default Product;

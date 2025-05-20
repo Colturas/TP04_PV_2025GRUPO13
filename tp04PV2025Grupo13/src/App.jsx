@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
-import Product from './assets/components/product';
-import ProductForm from './ProductForm';
+import ProductForm from "./assets/components/ProductForm";
+import Product from "./assets/components/Product";
 const App = () => {
   const [productos, setProductos] = useState([]);
   const [productoEditando, setProductoEditando] = useState(null);

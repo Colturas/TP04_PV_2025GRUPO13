@@ -1,94 +1,83 @@
 import React, { useState, useEffect } from 'react';
 
-const ProductForm = ({ onAddProduct, onUpdateProduct, editingProduct }) => {
-  const [producto, setProducto] = useState({
-    id: '',
-    descripcion: '',
-    precioUnitario: '',
-    descuento: '',
-    stock: ''
-  });
+const initialForm = {
+  id: '',
+  nombre: '',
+  marca: '',
+  descripcion: '',
+  precioUnitario: '',
+  descuento: '',
+  stock: ''
+};
+
+function ProductForm({ onAdd, onModify, productToEdit, setEditingProduct }) {
+  const [form, setForm] = useState(initialForm);
+
   useEffect(() => {
-    if (editingProduct) {
-      setProducto(editingProduct);
+    if (productToEdit) {
+      setForm(productToEdit);
+    } else {
+      setForm(initialForm);
     }
-  }, [editingProduct]);
+  }, [productToEdit]);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setProducto({
-      ...producto,
-      [name]: value
-    });
+    setForm(prev => ({ ...prev, [name]: value }));
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    const precioConDescuento = producto.precioUnitario * (1 - producto.descuento / 100);
-    const nuevoProducto = {
-      ...producto,
-      precioConDescuento: precioConDescuento.toFixed(2),
+
+    const precioConDescuento = form.precioUnitario * (1 - form.descuento / 100);
+
+    const newProduct = {
+      ...form,
+      precioUnitario: parseFloat(form.precioUnitario),
+      descuento: parseFloat(form.descuento),
+      precioConDescuento: parseFloat(precioConDescuento.toFixed(2)),
+      stock: parseInt(form.stock),
+      estado: true
     };
-    if (editingProduct) {
-      onUpdateProduct(nuevoProducto);
+
+    if (productToEdit) {
+      onModify(newProduct);
+      setEditingProduct(null);
     } else {
-      onAddProduct(nuevoProducto);
+      onAdd(newProduct);
     }
-    setProducto({
-      id: '',
-      descripcion: '',
-      precioUnitario: '',
-      descuento: '',
-      stock: ''
-    });
+
+    setForm(initialForm);
   };
+
+  const handleCancel = () => {
+    setForm(initialForm);
+    setEditingProduct(null);
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <h3>{editingProduct ? 'Editar Producto' : 'Agregar Producto'}</h3>
+    <form onSubmit={handleSubmit} className="product-form">
+      <h2>{productToEdit ? 'Modificar Producto' : 'Agregar Producto'}</h2>
 
       <input
-        type="text"
         name="id"
         placeholder="ID"
-        value={producto.id}
+        value={form.id}
         onChange={handleChange}
         required
-        disabled={editingProduct}
+        disabled={!!productToEdit} // desactivar si estamos editando
       />
-      <input
-        type="text"
-        name="descripcion"
-        placeholder="Descripción"
-        value={producto.descripcion}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        name="precioUnitario"
-        placeholder="Precio Unitario"
-        value={producto.precioUnitario}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        name="descuento"
-        placeholder="Descuento (%)"
-        value={producto.descuento}
-        onChange={handleChange}
-        required
-      />
-      <input
-        type="number"
-        name="stock"
-        placeholder="Stock"
-        value={producto.stock}
-        onChange={handleChange}
-        required
-      />
-      <button type="submit">
-        {editingProduct ? 'Actualizar' : 'Agregar'}
-      </button>
+      <input name="nombre" placeholder="Nombre" value={form.nombre} onChange={handleChange} required />
+      <input name="marca" placeholder="Marca" value={form.marca} onChange={handleChange} required />
+      <input name="descripcion" placeholder="Descripción" value={form.descripcion} onChange={handleChange} required />
+      <input type="number" name="precioUnitario" placeholder="Precio Unitario" value={form.precioUnitario} onChange={handleChange} required />
+      <input type="number" name="descuento" placeholder="Descuento (%)" value={form.descuento} onChange={handleChange} required />
+      <input type="number" name="stock" placeholder="Stock" value={form.stock} onChange={handleChange} required />
+
+      <button type="submit">{productToEdit ? 'Guardar Cambios' : 'Agregar Producto'}</button>
+      {productToEdit && <button type="button" onClick={handleCancel}>Cancelar</button>}
     </form>
   );
-};
-export default ProductForm;
+}
+
+export default ProductForm;

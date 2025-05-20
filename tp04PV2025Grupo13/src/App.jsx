@@ -1,14 +1,12 @@
-//import { useState } from 'react';
-import './App.css';
+import React from 'react';
 import Product from './assets/components/Product';
-
+import './assets/productstyle.css';
 function App() {
-  return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>Administración de Productos</h1>
-      <Product />
-    </div>
-  );
+  return <Product />;
 }
+<<<<<<< HEAD
 
 export default App
+=======
+export default App;
+>>>>>>> ebad217f202aba4311f91f3df6ec2bdc34be04f3

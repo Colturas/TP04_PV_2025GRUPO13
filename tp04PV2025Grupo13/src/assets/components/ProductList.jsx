@@ -20,5 +20,4 @@ function ProductList({ products, onDelete, onEdit }) {
     </div>
   );
 }
-
 export default ProductList;

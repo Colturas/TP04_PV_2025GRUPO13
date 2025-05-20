@@ -1,11 +1,18 @@
-function SearchBar({ busqueda, setBusqueda }) {
+import React from 'react';
+
+function SearchBar({ onSearch }) {
+  const handleChange = (e) => {
+    onSearch(e.target.value);
+  };
+
   return (
-    <input
-      type="text"
-      placeholder="Buscar por ID o descripción..."
-      value={busqueda}
-      onChange={(e) => setBusqueda(e.target.value)}
-    />
+    <div className="search-bar">
+      <input
+        type="text"
+        placeholder="Buscar por nombre o ID"
+        onChange={handleChange}
+      />
+    </div>
   );
 }
 

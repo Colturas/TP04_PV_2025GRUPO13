@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import React, { useState, useEffect, useCallback } from 'react';
 import './App.css';
 import ProductForm from "./assets/components/ProductForm";
@@ -43,3 +44,17 @@ const App = () => {
   );
 };
 export default App;
+=======
+import React from 'react';
+import Product from './assets/components/Product';
+import './assets/productstyle.css';
+function App() {
+  return <Product />;
+}
+<<<<<<< HEAD
+
+export default App
+=======
+export default App;
+>>>>>>> ebad217f202aba4311f91f3df6ec2bdc34be04f3
+>>>>>>> 57c8052ad2bee8acae0ca1381a4b1ba919dee5d1

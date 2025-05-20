@@ -1,75 +1,61 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react';
-/*import ProductForm from './ProductForm';
-import ProductList from './ProductList';*/
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import ProductForm from './ProductForm';
+import ProductList from './ProductList';
+import SearchBar from './SearchBar';
 
-const Product = () => {
-  const [productos, setProductos] = useState([]);
-  const [productoEditando, setProductoEditando] = useState(null);
-  const [busqueda, setBusqueda] = useState('');
+function Product() {
+  const [products, setProducts] = useState([]);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [editingProduct, setEditingProduct] = useState(null);
 
-  // Muestra cambios en consola
   useEffect(() => {
-    console.log("Lista actualizada de productos:", productos);
-  }, [productos]);
+    console.log('Productos actualizados:', products);
+  }, [products]);
 
-  // deberia agregar producto
-  const agregarProducto = useCallback((nuevoProducto) => {
-    setProductos([...productos, { ...nuevoProducto, id: Date.now() }]);
-  }, [productos]);
-
-  // Esto estaria eliminando producto
-  const eliminarProducto = useCallback((id) => {
-    setProductos(productos.filter(p => p.id !== id));
-  }, [productos]);
-  /*
-  ---------------Codigo que aun no pruebo si esta bien o no-----------------------
-  // Seleccionar producto para editar
-  const seleccionarProducto = useCallback((producto) => {
-    setProductoEditando(producto);
+  const addProduct = useCallback((newProduct) => {
+    setProducts(prev => [...prev, newProduct]);
   }, []);
 
-  // Guardar cambios al editar
-  const guardarEdicion = useCallback((productoEditado) => {
-    setProductos(productos.map(p =>
-      p.id === productoEditado.id ? productoEditado : p
-    ));
-    setProductoEditando(null);
-  }, [productos]);
-
-  // Filtrar por búsqueda
-  const productosFiltrados = useMemo(() => {
-    return productos.filter(p =>
-      p.descripcion.toLowerCase().includes(busqueda.toLowerCase())
+  const modifyProduct = useCallback((updatedProduct) => {
+    setProducts(prev =>
+      prev.map(p => p.id === updatedProduct.id ? updatedProduct : p)
     );
-  }, [busqueda, productos]);
+  }, []);
+
+  const deleteProduct = useCallback((id) => {
+    setProducts(prev =>
+      prev.map(p => p.id === id ? { ...p, estado: false } : p)
+    );
+  }, []);
+
+  const filteredProducts = useMemo(() => {
+    return products.filter(p =>
+      p.estado &&
+      (p.nombre.toLowerCase().includes(searchTerm.toLowerCase()) ||
+       p.id.toString().includes(searchTerm))
+    );
+  }, [products, searchTerm]);
 
   return (
-    <div>
-      <h2>Titulo (capaz Gestión de Productos)</h2>
+    <div className="app">
+      <h1>Gestor de Productos</h1>
 
-      { Buscador}
-      <input
-        type="text"
-        placeholder="Buscar por descripción..."
-        value={busqueda}
-        onChange={(e) => setBusqueda(e.target.value)}
-        style={{ marginBottom: "1rem", padding: "0.5rem", width: "100%" }}
-      />
+      <SearchBar value={searchTerm} onChange={setSearchTerm} />
 
-      { Formulario para agregar o editar }
       <ProductForm
-        alAgregar={agregarProducto}
-        productoEditar={productoEditando}
-        alEditar={guardarEdicion}
+        onAdd={addProduct}
+        onModify={modifyProduct}
+        productToEdit={editingProduct}
+        setEditingProduct={setEditingProduct}
       />
 
-      {Lista de productos}
       <ProductList
-        productos={productosFiltrados}
-        alEliminar={eliminarProducto}
-        alEditar={seleccionarProducto}
+        products={filteredProducts}
+        onDelete={deleteProduct}
+        onEdit={setEditingProduct}
       />
     </div>
-  ); */
-};
+  );
+}
+
 export default Product;

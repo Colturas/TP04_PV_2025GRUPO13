@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-/*import ProductForm from './ProductForm';
-import ProductList from './ProductList';*/
+import ProductForm from './ProductForm';
+import ProductList from './ProductList';
 
 const Product = () => {
   const [productos, setProductos] = useState([]);
@@ -44,7 +44,7 @@ const Product = () => {
 
   return (
     <div>
-      <h2>Titulo (capaz Gestión de Productos)</h2>
+      <h2>BRUUUHPATAPIM (capaz Gestión de Productos)</h2>
 
       { /* Buscador */ }
       <input
@@ -57,10 +57,11 @@ const Product = () => {
 
       { /* Formulario para agregar o editar */}
       <ProductForm
-        alAgregar={agregarProducto}
-        productoEditar={productoEditando}
-        alEditar={guardarEdicion}
-      />
+           onAddProduct={agregarProducto}
+           onUpdateProduct={guardarEdicion}
+           editingProduct={productoEditando}
+          />
+
 
       {/*Lista de productos*/}
       <ProductList
